@@ -19,7 +19,7 @@
     </div>
 
     <!-- Order Form -->
-    <form name="contact-form" method="post" action="https://script.google.com/macros/s/AKfycbxDnK8YAQykJgx6Y0SaxQX-VjoBqXkOU83l0ZFc84qIMcb6M6TwZP1c0BeIFdgF4lgZ/exec">
+    <form name="contact-form" method="post">
       <input type="text" name="Name" placeholder="Name" required>
       <input type="text" name="Dorm" placeholder="Dorm" required>
       <input type="text" name="Order" placeholder="(Specify your order- 1 order of A & G-Coke )" required>
@@ -32,5 +32,60 @@
       <input type="submit" value="Submit" id="submit">
     </form>
   </div>
+
+  <script>
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbxDnK8YAQykJgx6Y0SaxQX-VjoBqXkOU83l0ZFc84qIMcb6M6TwZP1c0BeIFdgF4lgZ/exec';
+    const form = document.forms['contact-form'];
+    const container = document.querySelector('.container');
+
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+
+      // Hide form during submission
+      form.style.display = 'none';
+
+      // Show loading message
+      const loadingMessage = document.createElement('p');
+      loadingMessage.textContent = 'Submitting your order... Please wait.';
+      loadingMessage.style.color = 'white';
+      container.appendChild(loadingMessage);
+
+      fetch(scriptURL, { method: 'POST', body: new FormData(form) })
+        .then(response => {
+          container.removeChild(loadingMessage);
+
+          // Show confirmation message
+          const thankYouMessage = document.createElement('p');
+          thankYouMessage.innerHTML = '✅ Please wait at the <strong>lobby of your dorm within 5 minutes</strong>. Thank you for ordering!';
+          thankYouMessage.style.color = 'white';
+          thankYouMessage.style.marginTop = '20px';
+
+          // Create Order Again button
+          const orderAgainBtn = document.createElement('button');
+          orderAgainBtn.textContent = 'Order Again';
+          orderAgainBtn.style.marginTop = '15px';
+          orderAgainBtn.style.padding = '10px 20px';
+          orderAgainBtn.style.backgroundColor = 'orangered';
+          orderAgainBtn.style.color = 'white';
+          orderAgainBtn.style.border = 'none';
+          orderAgainBtn.style.borderRadius = '5px';
+          orderAgainBtn.style.cursor = 'pointer';
+          orderAgainBtn.onclick = () => window.location.reload();
+
+          container.appendChild(thankYouMessage);
+          container.appendChild(orderAgainBtn);
+        })
+        .catch(error => {
+          container.removeChild(loadingMessage);
+
+          const errorMessage = document.createElement('p');
+          errorMessage.textContent = 'An error occurred. Please try again later.';
+          errorMessage.style.color = 'red';
+          container.appendChild(errorMessage);
+
+          form.style.display = 'block';
+        });
+    });
+  </script>
 </body>
 </html>
