@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <title>Order Now</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="Google Sheet.css">
   <style>
     * {
       box-sizing: border-box;
@@ -67,26 +66,32 @@
       font-size: 16px;
     }
 
+    .order-section,
     .payment-options {
       background-color: white;
       color: #003b5b;
-      padding: 10px;
+      padding: 10px 15px;
       border-radius: 5px;
       margin-bottom: 12px;
-      display: flex;
-      justify-content: space-around;
-      flex-wrap: wrap;
       font-size: 16px;
-    }
-
-    .payment-options label {
-      margin: 5px 0;
-      width: 100%;
       text-align: left;
     }
 
-    .payment-options input[type="radio"],
-    .payment-options input[type="checkbox"] {
+    .order-section strong,
+    .payment-options strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 18px;
+    }
+
+    .order-section label,
+    .payment-options label {
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .order-section input[type="checkbox"],
+    .payment-options input[type="radio"] {
       margin-right: 5px;
     }
 
@@ -153,25 +158,35 @@
       </select>
 
       <!-- Food Order Section -->
-      <div class="payment-options" style="flex-direction: column; align-items: flex-start;">
-        <strong style="color: #003b5b;">Select your order:</strong>
-        <label><input type="checkbox" name="Order" value="Combo 1: Siomai Rice"> Combo 1: Siomai Rice (3 pcs Siomai & rice) - ₱90</label>
-        <label><input type="checkbox" name="Order" value="Combo 2: Siomai + Hotdog + Rice"> Combo 2: Siomai with Hotdog & Rice - ₱90</label>
-        <label><input type="checkbox" name="Order" value="Combo 3: Siomai + Drinks"> Combo 3: Siomai with Drinks (price depends on drink)</label>
-        <label><input type="checkbox" name="Order" value="Coke"> Coke - ₱25</label>
-        <label><input type="checkbox" name="Order" value="Royal"> Royal - ₱25</label>
-        <label><input type="checkbox" name="Order" value="Sprite"> Sprite - ₱25</label>
-        <label><input type="checkbox" name="Order" value="Mountain Dew"> Mountain Dew - ₱25</label>
-        <label><input type="checkbox" name="Order" value="C2 Lemon"> C2 Lemon - ₱36</label>
-        <label><input type="checkbox" name="Order" value="C2 Apple"> C2 Apple - ₱36</label>
+      <div class="order-section">
+        <strong>Rice Bowl Only</strong>
+        <label><input type="checkbox" name="Order" value="5pcs Siomai w/ java rice - ₱60"> 5pcs Siomai w/ java rice - ₱60</label>
+        <label><input type="checkbox" name="Order" value="3pcs Siomai & hotdog w/ java rice - ₱69"> 3pcs Siomai & hotdog w/ java rice - ₱69</label>
+        <label><input type="checkbox" name="Order" value="4pcs Siomai w/ Hotdog - ₱45"> 4pcs Siomai w/ Hotdog - ₱45</label>
+
+        <strong>Siomai Only</strong>
+        <label><input type="checkbox" name="Order" value="4pcs Siomai - ₱25"> 4pcs Siomai - ₱25</label>
+        <label><input type="checkbox" name="Order" value="8pcs Siomai - ₱50"> 8pcs Siomai - ₱50</label>
+        <label><input type="checkbox" name="Order" value="10pcs Siomai - ₱60"> 10pcs Siomai - ₱60</label>
+
+        <strong>Drinks Only</strong>
+        <label><input type="checkbox" name="Order" value="Coke - ₱25"> Coke - ₱25</label>
+        <label><input type="checkbox" name="Order" value="Sprite - ₱25"> Sprite - ₱25</label>
+        <label><input type="checkbox" name="Order" value="MDew - ₱25"> MDew - ₱25</label>
+        <label><input type="checkbox" name="Order" value="Royal - ₱25"> Royal - ₱25</label>
+
+        <strong>Combo Meal</strong>
+        <label><input type="checkbox" name="Order" value="5pcs Siomai-Rice w/ Drinks - ₱82"> 5pcs Siomai-Rice w/ Drinks - ₱82</label>
+        <label><input type="checkbox" name="Order" value="3pcs Siomai-Hotdog-Rice w/ Drinks - ₱90"> 3pcs Siomai-Hotdog-Rice w/ Drinks - ₱90</label>
       </div>
 
       <input type="text" name="Order Notes" placeholder="Optional: Add notes or custom order details">
 
       <input type="tel" name="Phone" placeholder="Phone Number" pattern="[0-9]{11}" required>
 
-      <!-- Mode of Payment Options -->
+      <!-- Mode of Payment -->
       <div class="payment-options">
+        <strong>Mode of Payment</strong>
         <label><input type="radio" name="Mode of Payment" value="Cash" required> Cash</label>
         <label><input type="radio" name="Mode of Payment" value="GCash" required> GCash</label>
       </div>
@@ -199,7 +214,6 @@
       loadingMessage.style.color = 'white';
       container.appendChild(loadingMessage);
 
-      // Merge multiple checkbox values into a single comma-separated string
       const formData = new FormData(form);
       const orders = formData.getAll('Order');
       formData.delete('Order');
@@ -230,12 +244,10 @@
         })
         .catch(error => {
           container.removeChild(loadingMessage);
-
           const errorMessage = document.createElement('p');
           errorMessage.textContent = 'An error occurred. Please try again later.';
           errorMessage.style.color = 'red';
           container.appendChild(errorMessage);
-
           form.style.display = 'block';
         });
     });
