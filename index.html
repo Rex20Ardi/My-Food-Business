@@ -5,6 +5,112 @@
   <title>Order Now</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="Google Sheet.css">
+  <style>
+    /* Inline style to match external CSS for this self-contained example */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background-color: #f4f4f4;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .container {
+      background-color: #003b5b;
+      padding: 30px 25px;
+      border-radius: 10px;
+      max-width: 750px;
+      width: 100%;
+      color: white;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      font-size: 50px;
+    }
+
+    .image-gallery {
+      display: grid;
+      grid-template-columns: repeat(2, auto);
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .portrait {
+      max-width: 100%;
+      height: auto;
+      border-radius: 10px;
+      cursor: zoom-in;
+      transition: transform 0.3s ease;
+    }
+
+    .portrait:active {
+      transform: scale(2);
+    }
+
+    input[type="text"],
+    input[type="tel"],
+    select.input-style {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 12px;
+      border-radius: 5px;
+      border: none;
+      font-size: 16px;
+    }
+
+    .payment-options {
+      background-color: white;
+      color: #003b5b;
+      padding: 10px;
+      border-radius: 5px;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-around;
+      font-size: 16px;
+    }
+
+    .payment-options input[type="radio"] {
+      margin-right: 5px;
+    }
+
+    .note {
+      font-size: 14px;
+      margin-top: 5px;
+      margin-bottom: 15px;
+      color: #f0f0f0;
+    }
+
+    #submit {
+      width: 100%;
+      padding: 12px;
+      background-color: orangered;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    #submit:hover {
+      background-color: #ff5722;
+    }
+
+    @media (max-width: 600px) {
+      .image-gallery {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
 <body>
   <div class="container">
@@ -21,13 +127,34 @@
     <!-- Order Form -->
     <form name="contact-form" method="post">
       <input type="text" name="Name" placeholder="Name" required>
-      <input type="text" name="Dorm" placeholder="Dorm" required>
-      <input type="text" name="Order" placeholder="(Specify your order- 1 order of A & G-Coke )" required>
-      <input type="tel" name="Phone" placeholder="Phone Number" pattern="[0-9]{11}" required>
-      <input type="text" name="Mode of Payment" placeholder="Mode of Payment (e.g., GCash/Cash)" required>
 
-      <p class="note">Time of delivery 12:00–2:00 PM and 7:00–9:00 PM.</p> 
-      <p class="note"> NOTE* We will text you if your order has arrived, but please wait 5-10mins in the lobby after order.</p>
+      <!-- Dorm Dropdown -->
+      <select name="Dorm" required class="input-style">
+        <option value="" disabled selected>Select your dorm</option>
+        <option>Acacia</option>
+        <option>Cadena</option>
+        <option>Mahogany</option>
+        <option>Molave A</option>
+        <option>Molave B</option>
+        <option>Molave C</option>
+        <option>Dama</option>
+        <option>Catleya</option>
+        <option>Waling-Waling</option>
+        <option>Ilang Ilang</option>
+        <option>Sampa</option>
+        <option>Narra</option>
+      </select>
+
+      <input type="text" name="Order" placeholder="(Specify your order - e.g., 1 order of A & G-Coke)" required>
+      <input type="tel" name="Phone" placeholder="Phone Number" pattern="[0-9]{11}" required>
+
+      <!-- Mode of Payment Options -->
+      <div class="payment-options">
+        <label><input type="radio" name="Mode of Payment" value="Cash" required> Cash</label>
+        <label><input type="radio" name="Mode of Payment" value="GCash" required> GCash</label>
+      </div>
+
+      <p class="note">Time of delivery 12:00–2:00 PM and 7:00–9:00 PM. NOTE* We will text you if your order has arrived.</p>
       <p class="note">GCash number: 09922788477 – Rex Dominic Perico</p>
 
       <input type="submit" value="Submit" id="submit">
@@ -42,10 +169,8 @@
     form.addEventListener('submit', e => {
       e.preventDefault();
 
-      // Hide form during submission
       form.style.display = 'none';
 
-      // Show loading message
       const loadingMessage = document.createElement('p');
       loadingMessage.textContent = 'Submitting your order... Please wait.';
       loadingMessage.style.color = 'white';
@@ -55,13 +180,11 @@
         .then(response => {
           container.removeChild(loadingMessage);
 
-          // Show confirmation message
           const thankYouMessage = document.createElement('p');
           thankYouMessage.innerHTML = '✅ Please wait at the <strong>lobby of your dorm within 5 minutes</strong>. Thank you for ordering!';
           thankYouMessage.style.color = 'white';
           thankYouMessage.style.marginTop = '20px';
 
-          // Create Order Again button
           const orderAgainBtn = document.createElement('button');
           orderAgainBtn.textContent = 'Order Again';
           orderAgainBtn.style.marginTop = '15px';
