@@ -6,7 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="Google Sheet.css">
   <style>
-    /* Inline style to match external CSS for this self-contained example */
     * {
       box-sizing: border-box;
       margin: 0;
@@ -76,10 +75,18 @@
       margin-bottom: 12px;
       display: flex;
       justify-content: space-around;
+      flex-wrap: wrap;
       font-size: 16px;
     }
 
-    .payment-options input[type="radio"] {
+    .payment-options label {
+      margin: 5px 0;
+      width: 100%;
+      text-align: left;
+    }
+
+    .payment-options input[type="radio"],
+    .payment-options input[type="checkbox"] {
       margin-right: 5px;
     }
 
@@ -145,7 +152,22 @@
         <option>Narra</option>
       </select>
 
-      <input type="text" name="Order" placeholder="(Specify your order - e.g., 1 order of A & G-Coke)" required>
+      <!-- Food Order Section -->
+      <div class="payment-options" style="flex-direction: column; align-items: flex-start;">
+        <strong style="color: #003b5b;">Select your order:</strong>
+        <label><input type="checkbox" name="Order" value="Combo 1: Siomai Rice"> Combo 1: Siomai Rice (3 pcs Siomai & rice) - ₱90</label>
+        <label><input type="checkbox" name="Order" value="Combo 2: Siomai + Hotdog + Rice"> Combo 2: Siomai with Hotdog & Rice - ₱90</label>
+        <label><input type="checkbox" name="Order" value="Combo 3: Siomai + Drinks"> Combo 3: Siomai with Drinks (price depends on drink)</label>
+        <label><input type="checkbox" name="Order" value="Coke"> Coke - ₱25</label>
+        <label><input type="checkbox" name="Order" value="Royal"> Royal - ₱25</label>
+        <label><input type="checkbox" name="Order" value="Sprite"> Sprite - ₱25</label>
+        <label><input type="checkbox" name="Order" value="Mountain Dew"> Mountain Dew - ₱25</label>
+        <label><input type="checkbox" name="Order" value="C2 Lemon"> C2 Lemon - ₱36</label>
+        <label><input type="checkbox" name="Order" value="C2 Apple"> C2 Apple - ₱36</label>
+      </div>
+
+      <input type="text" name="Order Notes" placeholder="Optional: Add notes or custom order details">
+
       <input type="tel" name="Phone" placeholder="Phone Number" pattern="[0-9]{11}" required>
 
       <!-- Mode of Payment Options -->
@@ -155,7 +177,7 @@
       </div>
 
       <p class="note">Time of delivery 12:00–2:00 PM and 7:00–9:00 PM.</p>
-      <p class="note"> NOTE* We will text you if your order has arrived.</p>
+      <p class="note">NOTE* We will text you if your order has arrived.</p>
       <p class="note">GCash number: 09922788477 – Rex Dominic Perico</p>
 
       <input type="submit" value="Submit" id="submit">
@@ -177,7 +199,13 @@
       loadingMessage.style.color = 'white';
       container.appendChild(loadingMessage);
 
-      fetch(scriptURL, { method: 'POST', body: new FormData(form) })
+      // Merge multiple checkbox values into a single comma-separated string
+      const formData = new FormData(form);
+      const orders = formData.getAll('Order');
+      formData.delete('Order');
+      formData.append('Order', orders.join(', '));
+
+      fetch(scriptURL, { method: 'POST', body: formData })
         .then(response => {
           container.removeChild(loadingMessage);
 
