@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Order Now</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="Google Sheet.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Order Now</h1>
+
+    <!-- Portrait Images -->
+    <div class="image-gallery">
+      <img src="$10 (1).jpg" alt="Portrait 1" class="portrait" />
+      <img src="$10 (2).jpg" alt="Portrait 2" class="portrait" />
+      <img src="$10 (3).jpg" alt="Portrait 3" class="portrait" />
+      <img src="1.jpg" alt="Portrait 4" class="portrait" />
+    </div>
+
+    <!-- Order Form -->
+    <form name="contact-form" method="post" action="https://script.google.com/macros/s/AKfycbxDnK8YAQykJgx6Y0SaxQX-VjoBqXkOU83l0ZFc84qIMcb6M6TwZP1c0BeIFdgF4lgZ/exec">
+      <input type="text" name="Name" placeholder="Name" required>
+      <input type="text" name="Dorm" placeholder="Dorm" required>
+      <input type="text" name="Order" placeholder="(Specify your order- 1 order of A & G-Coke )" required>
+      <input type="tel" name="Phone" placeholder="Phone Number" pattern="[0-9]{11}" required>
+      <input type="text" name="Mode of Payment" placeholder="Mode of Payment (e.g., GCash/Cash)" required>
+
+      <p class="note">Time of delivery 12:00–2:00 PM and 7:00–9:00 PM. NOTE* We will text you if your order has arrived.</p>
+      <p class="note">GCash number: 09922788477 – Rex Dominic Perico</p>
+
+      <input type="submit" value="Submit" id="submit">
+    </form>
+  </div>
+</body>
+</html>
