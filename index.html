@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Order Now</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     * {
       box-sizing: border-box;
@@ -38,15 +38,20 @@
     .image-gallery {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
+      gap: 15px;
       margin-bottom: 20px;
     }
 
     .portrait {
       width: 100%;
       height: auto;
-      border-radius: 8px;
-      object-fit: cover;
+      border-radius: 10px;
+      cursor: zoom-in;
+      transition: transform 0.3s ease;
+    }
+
+    .portrait:active {
+      transform: scale(2);
     }
 
     input[type="text"],
@@ -78,15 +83,29 @@
       font-size: 18px;
     }
 
-    .order-section label,
-    .payment-options label {
-      display: block;
-      margin-bottom: 6px;
+    .order-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+      flex-wrap: wrap;
     }
 
-    .order-section input[type="checkbox"],
-    .payment-options input[type="radio"] {
-      margin-right: 5px;
+    .order-label {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .order-label input[type="checkbox"] {
+      margin-right: 6px;
+    }
+
+    .qty {
+      width: 60px;
+      padding: 5px;
+      font-size: 14px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
     }
 
     .note {
@@ -110,6 +129,17 @@
     #submit:hover {
       background-color: #ff5722;
     }
+
+    @media (max-width: 600px) {
+      .order-item {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .qty {
+        margin-top: 5px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -117,18 +147,16 @@
     <h1>Order Now</h1>
 
     <div class="image-gallery">
-      <img src="$10 (1).jpg" alt="Portrait 1" class="portrait">
-      <img src="$10 (2).jpg" alt="Portrait 2" class="portrait">
-      <img src="$10 (5).jpg" alt="Portrait 3" class="portrait">
-      <img src="1.jpg" alt="Portrait 4" class="portrait">
+      <img src="$10 (1).jpg" alt="Portrait 1" class="portrait" />
+      <img src="$10 (2).jpg" alt="Portrait 2" class="portrait" />
+      <img src="$10 (5).jpg" alt="Portrait 3" class="portrait" />
+      <img src="1.jpg" alt="Portrait 4" class="portrait" />
     </div>
 
     <form name="contact-form" method="post">
-      <input type="text" name="Name" placeholder="Name" required>
-
-      <select name="Dorm" required class="input-style" id="dorm-select">
+      <input type="text" name="Name" placeholder="Name" required />
+      <select name="Dorm" id="dorm" required class="input-style">
         <option value="" disabled selected>Select your dorm</option>
-        <option>Other Place</option>
         <option>Acacia</option>
         <option>Cadena</option>
         <option>Catleya</option>
@@ -142,114 +170,109 @@
         <option>Narra</option>
         <option>Sampaguita</option>
         <option>Waling-Waling</option>
+        <option>Other Place</option>
       </select>
 
-      <input type="text" name="Custom Location" id="custom-location" placeholder="Specify other place" style="display: none;">
+      <input type="text" name="SpecificPlace" id="specific-place" placeholder="Please specify the location" style="display: none;" />
 
       <div class="order-section">
         <strong>Rice Bowl Only</strong>
-        <label><input type="checkbox" name="Order" value="5pcs Siomai w/ java rice - ₱60"> 5pcs Siomai w/ java rice - ₱60</label>
-        <label><input type="checkbox" name="Order" value="3pcs Siomai & hotdog w/ java rice - ₱69"> 3pcs Siomai & hotdog w/ java rice - ₱69 (NOT AVAILABLE)</label>
-        <label><input type="checkbox" name="Order" value="4pcs Siomai w/ Hotdog - ₱45"> 4pcs Siomai w/ Hotdog - ₱45 (NOT AVAILABLE)</label>
+        <div class="order-item"><label class="order-label"><input type="checkbox" name="Order" value="5pcs Siomai w/ java rice - ₱60" data-price="60">5pcs Siomai w/ java rice - ₱60</label><input type="number" class="qty" name="Qty1" min="1" value="1" disabled></div>
+        <div class="order-item"><label class="order-label"><input type="checkbox" name="Order" value="3pcs Siomai & hotdog with java rice - ₱69" data-price="69">3pcs Siomai & hotdog with java rice - ₱69</label><input type="number" class="qty" name="Qty2" min="1" value="1" disabled></div>
+        <div class="order-item"><label class="order-label"><input type="checkbox" name="Order" value="4pcs Siomai w/ Hotdog - ₱45" data-price="45">4pcs Siomai w/ Hotdog - ₱45</label><input type="number" class="qty" name="Qty3" min="1" value="1" disabled></div>
 
         <strong>Siomai Only</strong>
-        <label><input type="checkbox" name="Order" value="4pcs Siomai - ₱25"> 4pcs Siomai - ₱25</label>
-        <label><input type="checkbox" name="Order" value="8pcs Siomai - ₱50"> 8pcs Siomai - ₱50</label>
-        <label><input type="checkbox" name="Order" value="10pcs Siomai - ₱60"> 10pcs Siomai - ₱60</label>
+        <div class="order-item"><label class="order-label"><input type="checkbox" name="Order" value="4pcs Siomai - ₱25" data-price="25">4pcs Siomai - ₱25</label><input type="number" class="qty" name="Qty4" min="1" value="1" disabled></div>
+        <div class="order-item"><label class="order-label"><input type="checkbox" name="Order" value="8pcs Siomai - ₱50" data-price="50">8pcs Siomai - ₱50</label><input type="number" class="qty" name="Qty5" min="1" value="1" disabled></div>
+        <div class="order-item"><label class="order-label"><input type="checkbox" name="Order" value="10pcs Siomai - ₱60" data-price="60">10pcs Siomai - ₱60</label><input type="number" class="qty" name="Qty6" min="1" value="1" disabled></div>
 
         <strong>Drinks Only</strong>
-        <label><input type="checkbox" name="Order" value="Coke - ₱25"> Pinoy Cola - ₱25</label>
-        <label><input type="checkbox" name="Order" value="Sprite - ₱25"> Sprite - ₱25 (NOT AVAILABLE)</label>
-        <label><input type="checkbox" name="Order" value="MDew - ₱25"> MDew - ₱25</label>
-        <label><input type="checkbox" name="Order" value="Royal - ₱25"> Royal - ₱25</label>
+        <div class="order-item"><label class="order-label"><input type="checkbox" name="Order" value="Coke - ₱25" data-price="25">Coke - ₱25</label><input type="number" class="qty" name="Qty7" min="1" value="1" disabled></div>
+        <div class="order-item"><label class="order-label"><input type="checkbox" name="Order" value="Sprite - ₱25" data-price="25">Sprite - ₱25</label><input type="number" class="qty" name="Qty8" min="1" value="1" disabled></div>
+        <div class="order-item"><label class="order-label"><input type="checkbox" name="Order" value="MDew - ₱25" data-price="25">MDew - ₱25</label><input type="number" class="qty" name="Qty9" min="1" value="1" disabled></div>
+        <div class="order-item"><label class="order-label"><input type="checkbox" name="Order" value="Royal - ₱25" data-price="25">Royal - ₱25</label><input type="number" class="qty" name="Qty10" min="1" value="1" disabled></div>
 
         <strong>Combo Meal</strong>
-        <label><input type="checkbox" name="Order" value="5pcs Siomai-Rice w/ Drinks - ₱82"> 5pcs Siomai-Rice w/ Drinks - ₱82</label>
-        <label><input type="checkbox" name="Order" value="3pcs Siomai-Hotdog-Rice w/ Drinks - ₱90"> 3pcs Siomai-Hotdog-Rice w/ Drinks - ₱90</label>
+        <div class="order-item"><label class="order-label"><input type="checkbox" name="Order" value="5pcs Siomai-Rice w/ Drinks - ₱82" data-price="82">5pcs Siomai-Rice w/ Drinks - ₱82</label><input type="number" class="qty" name="Qty11" min="1" value="1" disabled></div>
+        <div class="order-item"><label class="order-label"><input type="checkbox" name="Order" value="3pcs Siomai-Hotdog-Rice w/Drinks - ₱90" data-price="90">3pcs Siomai-Hotdog-Rice w/Drinks - ₱90</label><input type="number" class="qty" name="Qty12" min="1" value="1" disabled></div>
       </div>
 
-      <input type="text" name="Order Notes" placeholder="Optional: Add notes or custom order details">
-      <input type="tel" name="Phone" placeholder="Phone Number" pattern="[0-9]{11}" required>
+      <input type="text" name="Order Notes" placeholder="Optional: location or instruction" />
+      <input type="tel" name="Phone" placeholder="Phone Number" pattern="[0-9]{11}" required />
 
       <div class="payment-options">
         <strong>Mode of Payment</strong>
-        <label><input type="radio" name="Mode of Payment" value="Cash" required> Cash</label>
-        <label><input type="radio" name="Mode of Payment" value="GCash" required> GCash</label>
+        <label><input type="radio" name="Mode of Payment" value="Cash" required /> Cash</label>
+        <label><input type="radio" name="Mode of Payment" value="GCash" required /> GCash</label>
       </div>
 
-      <p class="note">Time of delivery 12:00–2:00 PM and 7:00–9:00 PM.</p>
-      <p class="note">NOTE* We will text you if your order has arrived.</p>
-      <p class="note">GCash number: 09922788477 – Rex Dominic Perico</p>
+      <p class="note">Delivery time: 12:00–2:00 PM & 7:00–9:00 PM</p>
+      <p class="note">GCash: 09922788477 – Rex Dominic Perico</p>
 
-      <input type="submit" value="Submit" id="submit">
+      <input type="submit" value="Submit" id="submit" />
     </form>
   </div>
 
   <script>
-    const dormSelect = document.getElementById('dorm-select');
-    const customLocationInput = document.getElementById('custom-location');
-
-    function toggleCustomLocation() {
-      if (dormSelect.value === 'Other Place') {
-        customLocationInput.style.display = 'block';
-        customLocationInput.required = true;
-      } else {
-        customLocationInput.style.display = 'none';
-        customLocationInput.required = false;
-      }
-    }
-
-    dormSelect.addEventListener('change', toggleCustomLocation);
-    window.addEventListener('DOMContentLoaded', toggleCustomLocation);
-
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbxDnK8YAQykJgx6Y0SaxQX-VjoBqXkOU83l0ZFc84qIMcb6M6TwZP1c0BeIFdgF4lgZ/exec';
     const form = document.forms['contact-form'];
+    const specificPlace = document.getElementById('specific-place');
+    const dormSelect = document.getElementById('dorm');
     const container = document.querySelector('.container');
+
+    form.querySelectorAll('.order-item').forEach(item => {
+      const checkbox = item.querySelector('input[type="checkbox"]');
+      const qty = item.querySelector('input[type="number"]');
+      checkbox.addEventListener('change', () => {
+        qty.disabled = !checkbox.checked;
+        if (checkbox.checked) qty.value = 1;
+      });
+    });
+
+    dormSelect.addEventListener('change', () => {
+      specificPlace.style.display = dormSelect.value === 'Other Place' ? 'block' : 'none';
+      specificPlace.required = dormSelect.value === 'Other Place';
+    });
 
     form.addEventListener('submit', e => {
       e.preventDefault();
-      form.style.display = 'none';
-
-      const loadingMessage = document.createElement('p');
-      loadingMessage.textContent = 'Submitting your order... Please wait.';
-      loadingMessage.style.color = 'white';
-      container.appendChild(loadingMessage);
-
       const formData = new FormData(form);
       const orders = formData.getAll('Order');
+      let total = 0;
+      const updatedOrders = orders.map(order => {
+        const item = form.querySelector(`input[value="${order}"]`);
+        const qtyInput = item.closest('.order-item').querySelector('input[type="number"]');
+        const qty = parseInt(qtyInput.value) || 1;
+        const price = parseInt(item.getAttribute('data-price')) || 0;
+        total += qty * price;
+        return `${order} (x${qty})`;
+      });
+
       formData.delete('Order');
-      formData.append('Order', orders.join(', '));
+      formData.append('Order', updatedOrders.join(', '));
+      formData.append('Total', `₱${total}`);
 
-      fetch(scriptURL, { method: 'POST', body: formData })
-        .then(response => {
-          container.removeChild(loadingMessage);
-          const thankYouMessage = document.createElement('p');
-          thankYouMessage.innerHTML = '✅ Please wait at the <strong>lobby of your dorm within 5 minutes</strong>. Thank you for ordering!';
-          thankYouMessage.style.color = 'white';
-          thankYouMessage.style.marginTop = '20px';
-
-          const orderAgainBtn = document.createElement('button');
-          orderAgainBtn.textContent = 'Order Again';
-          orderAgainBtn.style.marginTop = '15px';
-          orderAgainBtn.style.padding = '10px 20px';
-          orderAgainBtn.style.backgroundColor = 'orangered';
-          orderAgainBtn.style.color = 'white';
-          orderAgainBtn.style.border = 'none';
-          orderAgainBtn.style.borderRadius = '5px';
-          orderAgainBtn.style.cursor = 'pointer';
-          orderAgainBtn.onclick = () => window.location.reload();
-
-          container.appendChild(thankYouMessage);
-          container.appendChild(orderAgainBtn);
-        })
-        .catch(error => {
-          container.removeChild(loadingMessage);
-          const errorMessage = document.createElement('p');
-          errorMessage.textContent = 'An error occurred. Please try again later.';
-          errorMessage.style.color = 'red';
-          container.appendChild(errorMessage);
-          form.style.display = 'block';
-        });
+      fetch('https://script.google.com/macros/s/AKfycbxDnK8YAQykJgx6Y0SaxQX-VjoBqXkOU83l0ZFc84qIMcb6M6TwZP1c0BeIFdgF4lgZ/exec', {
+        method: 'POST',
+        body: formData
+      })
+      .then(() => {
+        container.innerHTML = `
+          <h1 style="font-size: 36px; margin-bottom: 20px;">✅ Please wait at the lobby of your dorm within 5 minutes. Thank you for ordering!</h1>
+          <p style="font-size: 22px; margin-bottom: 20px;">Total Amount: <strong>₱${total}</strong></p>
+          <button onclick="location.reload()" style="
+            padding: 12px 24px;
+            font-size: 16px;
+            background-color: orangered;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+          ">Order Again</button>
+        `;
+      })
+      .catch(() => {
+        alert("Submission failed. Please try again.");
+      });
     });
   </script>
 </body>
