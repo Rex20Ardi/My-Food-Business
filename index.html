@@ -237,7 +237,7 @@
       formData.append('Order', updatedOrders.join(', '));
       formData.append('Total', `₱${total}`);
 
-      fetch('https://script.google.com/macros/s/AKfycbxEgIJQ-nWEr3bUBQB7GUUfVgmSSHD6fs4vv17Xa6JQXf6LnyZzzB73CEz-xK_so8A8/exec', {
+      fetch('https://script.google.com/macros/s/AKfycbwcKmjjPPRaafyjEpvGH1Y0SqNDX6l8wp8DMyUrUY6SDpYztGe9eo8whI__-OuvpSWF/exec', {
         method: 'POST',
         body: formData
       })
