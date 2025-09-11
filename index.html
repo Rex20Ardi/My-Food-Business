@@ -219,6 +219,9 @@
 
     form.addEventListener('submit', e => {
       e.preventDefault();
+      const submitBtn = document.getElementById('submit');
+      submitBtn.disabled = true;
+      submitBtn.value = 'Submitting...';
       const formData = new FormData(form);
       const orders = formData.getAll('Order');
       let total = 0;
@@ -257,12 +260,13 @@
       })
       .catch(() => {
         alert("Submission failed. Please try again.");
+        submitBtn.disabled = false;
+        submitBtn.value = 'Submit';
       });
     });
   </script>
 </body>
 </html>
-
 
 
 
