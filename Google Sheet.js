@@ -1,4 +1,4 @@
-const scriptURL = 'https://script.google.com/macros/s/AKfycbw2GMqmoRt0jm3B6aYItlwhZcWWtl9l2P6tQO5rVi-5fp5MgXecSqYaimHLM3nPUoG-/exec';
+const scriptURL = 'https://script.google.com/macros/s/AKfycbzPVqo-Wi47_WOREfdRz2o8MOgO224r_0sKLV2TPHaemr3ve5GP_1rrInZ4nw47xPc/exec';
 const form = document.forms['contact-form'];
 const container = document.querySelector('.container');
 
@@ -49,4 +49,5 @@ form.addEventListener('submit', e => {
       form.style.display = 'block';
     });
 });
+
 
