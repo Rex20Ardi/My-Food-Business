@@ -308,22 +308,18 @@ form.addEventListener('submit', function(e) {
 
 container.innerHTML =
   '<div style="background:#fff;padding:30px;border-radius:15px;max-width:500px;margin:40px auto;text-align:center;box-shadow:0 10px 25px rgba(0,0,0,0.15);">' +
-
     '<h2 style="color:#007bff;margin-bottom:15px;">Order Confirmed</h2>' +
-
     '<div style="text-align:left;background:#f0f8ff;padding:15px;border-radius:10px;margin-bottom:20px;">' +
       '<h3 style="margin-bottom:10px;color:#007bff;">Order Summary</h3>' +
       orderListHTML +
     '</div>' +
-
     '<div style="background:#007bff;color:white;padding:15px;border-radius:10px;font-size:20px;font-weight:bold;margin-bottom:20px;">' +
       'Total: ₱' + total +
     '</div>' +
-
-    '<button onclick="location.reload()" style="padding:10px 25px;background:orangered;color:white;border:none;border-radius:8px;">' +
-      'Order Again' +
-    '</button>' +
-
+    '<div style="background-color:#007bff;color:white;padding:15px;border-radius:12px;font-size:18px;margin-bottom:25px;">' +
+      'GCash #: 0992 278 8477' +
+    '</div>' +
+    '<button onclick="location.reload()" style="padding:12px 28px;font-size:16px;background-color:orangered;color:white;border:none;border-radius:8px;cursor:pointer;">Order Again</button>' +
   '</div>';
 
   .catch(() => {
@@ -336,6 +332,7 @@ container.innerHTML =
 
 </body>
 </html>
+
 
 
 
