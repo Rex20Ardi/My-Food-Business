@@ -301,7 +301,9 @@ form.addEventListener('submit', function(e) {
   .then(() => {
 
     const orderListHTML = updatedOrders.map(order =>
-      `<div style="margin-bottom:8px;">${order}</div>`
+      `<div style="margin-bottom:8px; color:#007bff; font-weight:500;">
+  ${order}
+</div>
     ).join("");
 
     container.innerHTML = `
@@ -310,7 +312,7 @@ form.addEventListener('submit', function(e) {
         <h2 style="color:#28a745;margin-bottom:15px;">Order Confirmed</h2>
 
         <div style="text-align:left;background:#f9f9f9;padding:15px;border-radius:10px;margin-bottom:20px;">
-          <h3 style="margin-bottom:10px;">Order Summary</h3>
+          <h3 style="margin-bottom:10px; color:#007bff;">Order Summary</h3>
           ${orderListHTML}
         </div>
 
@@ -335,5 +337,6 @@ form.addEventListener('submit', function(e) {
 
 </body>
 </html>
+
 
 
