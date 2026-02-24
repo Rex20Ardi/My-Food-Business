@@ -258,16 +258,28 @@ form.addEventListener('submit', e => {
   submitBtn.value = 'Submitting...';
 
   const formData = new FormData(form);
-  const orders = formData.getAll('Order');
-  let total = 0;
 
-  const updatedOrders = orders.map(order => {
-    const item = form.querySelector(`input[value="${order}"]`);
-    const qtyInput = item.closest('.order-item').querySelector('input[type="number"]');
+  const checkedItems = form.querySelectorAll('input[type="checkbox"]:checked');
+
+  if (checkedItems.length === 0) {
+    alert("Please select at least one order.");
+    submitBtn.disabled = false;
+    submitBtn.value = 'Submit';
+    return;
+  }
+
+  let total = 0;
+  let updatedOrders = [];
+
+  checkedItems.forEach(item => {
+    const price = parseInt(item.dataset.price);
+    const qtyInput = item.closest('.order-item').querySelector('.qty');
     const qty = parseInt(qtyInput.value) || 1;
-    const price = parseInt(item.getAttribute('data-price')) || 0;
-    total += qty * price;
-    return `${order} (x${qty})`;
+
+    const itemTotal = price * qty;
+    total += itemTotal;
+
+    updatedOrders.push(`${item.value} (x${qty}) - ₱${itemTotal}`);
   });
 
   formData.delete('Order');
@@ -280,10 +292,8 @@ form.addEventListener('submit', e => {
   })
   .then(() => {
 
-    const orderListHTML = updatedOrders.map(item => 
-      `<div style="display:flex;justify-content:space-between;margin-bottom:6px;">
-        <span>${item}</span>
-      </div>`
+    const orderListHTML = updatedOrders.map(item =>
+      `<div style="margin-bottom:8px;">${item}</div>`
     ).join('');
 
     container.innerHTML = `
@@ -326,3 +336,4 @@ form.addEventListener('submit', e => {
 
 </body>
 </html>
+
