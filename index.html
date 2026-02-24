@@ -251,75 +251,74 @@ dormSelect.addEventListener('change', () => {
   specificPlace.required = dormSelect.value === 'Other Place';
 });
 
-form.addEventListener('submit', e => {
+form.addEventListener('submit', function(e) {
   e.preventDefault();
+
   const submitBtn = document.getElementById('submit');
   submitBtn.disabled = true;
-  submitBtn.value = 'Submitting...';
+  submitBtn.value = "Submitting...";
 
   const formData = new FormData(form);
-
-  const checkedItems = form.querySelectorAll('input[type="checkbox"]:checked');
-
-  if (checkedItems.length === 0) {
-    alert("Please select at least one order.");
-    submitBtn.disabled = false;
-    submitBtn.value = 'Submit';
-    return;
-  }
 
   let total = 0;
   let updatedOrders = [];
 
-  checkedItems.forEach(item => {
-    const price = parseInt(item.dataset.price);
-    const qtyInput = item.closest('.order-item').querySelector('.qty');
-    const qty = parseInt(qtyInput.value) || 1;
+  // LOOP THROUGH ALL ORDER ITEMS DIRECTLY
+  const orderItems = document.querySelectorAll('.order-item');
 
-    const itemTotal = price * qty;
-    total += itemTotal;
+  orderItems.forEach(item => {
+    const checkbox = item.querySelector('input[type="checkbox"]');
+    const qtyInput = item.querySelector('input[type="number"]');
 
-    updatedOrders.push(`${item.value} (x${qty}) - ₱${itemTotal}`);
+    if (checkbox && checkbox.checked) {
+      const price = parseInt(checkbox.getAttribute('data-price')) || 0;
+      const qty = parseInt(qtyInput.value) || 1;
+
+      const itemTotal = price * qty;
+      total += itemTotal;
+
+      updatedOrders.push(
+        checkbox.value + " (x" + qty + ") - ₱" + itemTotal
+      );
+    }
   });
 
-  formData.delete('Order');
-  formData.append('Order', updatedOrders.join('\n'));
-  formData.append('Total', `₱${total}`);
+  if (updatedOrders.length === 0) {
+    alert("Please select at least one item.");
+    submitBtn.disabled = false;
+    submitBtn.value = "Submit";
+    return;
+  }
 
-  fetch('https://script.google.com/macros/s/AKfycbzPVqo-Wi47_WOREfdRz2o8MOgO224r_0sKLV2TPHaemr3ve5GP_1rrInZ4nw47xPc/exec', {
-    method: 'POST',
+  formData.delete("Order");
+  formData.append("Order", updatedOrders.join("\n"));
+  formData.append("Total", "₱" + total);
+
+  fetch("https://script.google.com/macros/s/AKfycbzPVqo-Wi47_WOREfdRz2o8MOgO224r_0sKLV2TPHaemr3ve5GP_1rrInZ4nw47xPc/exec", {
+    method: "POST",
     body: formData
   })
   .then(() => {
 
-    const orderListHTML = updatedOrders.map(item =>
-      `<div style="margin-bottom:8px;">${item}</div>`
-    ).join('');
+    const orderListHTML = updatedOrders.map(order =>
+      `<div style="margin-bottom:8px;">${order}</div>`
+    ).join("");
 
     container.innerHTML = `
-      <div style="font-family:'Poppins',sans-serif;text-align:center;background:linear-gradient(135deg,#ffffff,#f1f3f5);padding:35px 25px;border-radius:20px;box-shadow:0 8px 25px rgba(0,0,0,0.15);max-width:500px;margin:40px auto;">
+      <div style="background:#fff;padding:30px;border-radius:15px;max-width:500px;margin:40px auto;text-align:center;box-shadow:0 10px 25px rgba(0,0,0,0.15);">
 
-        <h1 style="font-size:28px;color:#2e7d32;margin-bottom:15px;">Order Confirmed</h1>
+        <h2 style="color:#28a745;margin-bottom:15px;">Order Confirmed</h2>
 
-        <p style="font-size:18px;color:#555;margin-bottom:20px;">
-          Please wait at the lobby<br>
-          <strong>ETA: 10–15 minutes</strong>
-        </p>
-
-        <div style="text-align:left;background:#fff;padding:15px;border-radius:12px;margin-bottom:20px;border:1px solid #eee;">
-          <h3 style="margin-bottom:10px;color:#333;">Order Summary</h3>
+        <div style="text-align:left;background:#f9f9f9;padding:15px;border-radius:10px;margin-bottom:20px;">
+          <h3 style="margin-bottom:10px;">Order Summary</h3>
           ${orderListHTML}
         </div>
 
-        <div style="background-color:#28a745;color:white;padding:18px;border-radius:12px;font-size:22px;font-weight:bold;margin-bottom:20px;">
-          Total Amount: ₱${total}
+        <div style="background:#28a745;color:white;padding:15px;border-radius:10px;font-size:20px;font-weight:bold;margin-bottom:20px;">
+          Total: ₱${total}
         </div>
 
-        <div style="background-color:#007bff;color:white;padding:15px;border-radius:12px;font-size:18px;margin-bottom:25px;">
-          GCash #: 0992 278 8477
-        </div>
-
-        <button onclick="location.reload()" style="padding:12px 28px;font-size:16px;background-color:orangered;color:white;border:none;border-radius:8px;cursor:pointer;">
+        <button onclick="location.reload()" style="padding:10px 25px;background:orangered;color:white;border:none;border-radius:8px;">
           Order Again
         </button>
 
@@ -327,13 +326,14 @@ form.addEventListener('submit', e => {
     `;
   })
   .catch(() => {
-    alert("Submission failed. Please try again.");
+    alert("Submission failed.");
     submitBtn.disabled = false;
-    submitBtn.value = 'Submit';
+    submitBtn.value = "Submit";
   });
 });
 </script>
 
 </body>
 </html>
+
 
